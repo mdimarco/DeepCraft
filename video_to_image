@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Video to frame converter for DeepCraft
+# By Justin Bisignano
+#
+# This script will use ffmpeg to convert an input video to individual images,
+# saving one frame every two seconds to a .png file
+
+USAGE="./video_to_image video_to_image in_video out_folder_name"
+
+# Check args
+
+if [ "$#" -ne 2 ]; then
+    echo "Illegal number of parameters"
+    echo "Usage:" $USAGE
+fi
+
+if [ -d "$2" ]; then
+  echo "Error: directory $2 already exists"
+  exit
+fi
+
+# Get length of video and then use awk to get just the seconds component (the integer component)
+
+DURATION=`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $1 | awk '{print int($0)}'`
+
+# Make the output folder
+mkdir $2
+
+# Extract the images
+
+# This doesn't quite work right, see http://stackoverflow.com/questions/10957412/fastest-way-to-extract-frames-using-ffmpeg
+#for i in {0..$DURATION} ; do ffmpeg -accurate_seek -ss `echo $i*60.0 | bc` -i $1 -frames:v 1 $2_$i.bmp ; done
+
+# Slower, but works
+# This takes the video in, scales it down and converts it to images
+ffmpeg -i $1 -vf 'fps=1/2, scale=640:-1' $2/$1_%d.png
+
+echo "All done!"
