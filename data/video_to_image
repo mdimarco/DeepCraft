@@ -29,11 +29,14 @@ mkdir $2
 
 # Extract the images
 
+# Get the base filename
+BASENAME=$(basename $1)
+
 # This doesn't quite work right, see http://stackoverflow.com/questions/10957412/fastest-way-to-extract-frames-using-ffmpeg
 #for i in {0..$DURATION} ; do ffmpeg -accurate_seek -ss `echo $i*60.0 | bc` -i $1 -frames:v 1 $2_$i.bmp ; done
 
 # Slower, but works
 # This takes the video in, scales it down and converts it to images
-ffmpeg -i $1 -vf 'fps=1/2, scale=640:-1' $2/$1_%d.png
+ffmpeg -i $1 -vf 'fps=1/2, scale=640:-1' $2/$BASENAME.%d.png
 
 echo "All done!"
