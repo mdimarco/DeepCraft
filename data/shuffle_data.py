@@ -14,6 +14,7 @@ OUTFILE_DIR = "."
 
 import os
 import math
+import random
 
 from collections import defaultdict
 
@@ -31,6 +32,9 @@ for label in labels:
 	label_root_path = ROOT_DIR+"/"+label
 	# Each video is a folder
 	videos = get_subdirectories(label_root_path)
+
+	# Shuffle the videos
+	random.shuffle(videos)
 	
 	# Select a subset of videos for training
 	cutoff_index = int( math.ceil( len(videos)*TRAIN_PERCENT ) )
