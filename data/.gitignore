@@ -3,3 +3,7 @@
 *.m4v
 *.mov
 *.avi
+# Ignore the images as well
+*.png
+*.jpg
+*.bmp
