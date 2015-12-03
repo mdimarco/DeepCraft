@@ -7,9 +7,9 @@ This avoids training and testing on highly correlated data."""
 # The percentage of data to use for training
 TRAIN_PERCENT = 0.5
 # Path to the processed data folder
-ROOT_DIR = "../data/processed"
+ROOT_DIR = "./processed"
 # Path to the directory to save the output files
-OUTFILE_DIR = "../data"
+OUTFILE_DIR = "."
 
 
 import os
