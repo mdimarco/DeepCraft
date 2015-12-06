@@ -37,6 +37,6 @@ BASENAME=$(basename $1)
 
 # Slower, but works
 # This takes the video in, scales it down and converts it to images
-ffmpeg -i $1 -vf 'fps=1/2, scale=256:-1' $2/$BASENAME.%d.png
+ffmpeg -i $1 -vf 'fps=1/2, scale=256:256' $2/$BASENAME.%d.png
 
 echo "All done!"
