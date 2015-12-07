@@ -32,23 +32,27 @@ def _load_images(image_path_file):
 		img = misc.imread(x)
 		# HACK - MAJOR HACK - this forces all images to be the same size
 		img = Image.fromarray(numpy.uint8(img))
-		img = img.resize((320, 320), Image.ANTIALIAS)
+		#img = img.convert('L').resize((28, 28), Image.ANTIALIAS)
+		img = img.resize((128, 128), Image.ANTIALIAS)
 		img = numpy.asarray(img)
 		# Flatten the image
-		return img.reshape(img.shape[0] * img.shape[1] * img.shape[2])
+		img = img.reshape(img.size)
+		img = img.astype(numpy.float32)
+		img = numpy.multiply(img, 1.0 / 255.0)
+		return img
 	images = map(image_helper, image_paths)
 	images = numpy.asarray(images)
 	
 	return images, labels
 
 def load_train_data():
-	"""Returns a list of tuples (image, label) of the training images.
-	These are respectively a 3d numpy array and a one hot label vector."""
+	"""Returns a tuple of lists (image, label) of the training images and labels.
+	These are respectively a list of 3d numpy arrays and a list of one hot label vectors."""
 	return _load_images(TRAIN_FILE)
 
 def load_test_data():
-	"""Returns a list of tuples (image, label) of the testing images.
-	These are respectively a 3d numpy array and a one hot label vector."""
+	"""Returns a tuple of lists (image, label) of the testing images and labels.
+	These are respectively a list of 3d numpy arrays and a list of one hot label vectors."""
 	return _load_images(TEST_FILE)
 
 def dense_to_one_hot(labels):
@@ -70,5 +74,4 @@ def dense_to_one_hot(labels):
 	labels_one_hot = numpy.zeros((num_labels, num_classes))
 	labels_one_hot.flat[index_offset + labels_dense.ravel()] = 1
 	return labels_one_hot
-	#TODO check that this works ^^^
 
