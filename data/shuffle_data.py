@@ -5,7 +5,7 @@ no image from that video will be in the testing set.
 This avoids training and testing on highly correlated data."""
 
 # The percentage of data to use for training
-TRAIN_PERCENT = 0.5
+TRAIN_PERCENT = 0.75
 # Path to the processed data folder
 ROOT_DIR = "./processed"
 # Path to the directory to save the output files
